@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h3>Задача 1. Знайти суми елементів у вказаній області</h3>
+	<script>
+		//--------------------------------------------------
+		function getRandomNum(minV, maxV) {
+			return minV + Math.floor(Math.random() * (maxV - minV + 1))
+		}
+		function generateNewArr(arrLenght, minValue, maxValue) {
+			let arr = []
+			for (let i = 0; i < arrLenght; i++) {
+				let randomNum = getRandomNum(minValue, maxValue)
+				arr.push(randomNum)
+			}
+			return arr
+		}
+		function generateTableArr(rowValue, columnValue, minNumber, maxNumber) {
+			let table = []
+			for (let i = 0; i < rowValue; i++) {
+				let randomRow = generateNewArr(columnValue, minNumber, maxNumber)
+				table.push(randomRow)
+			}
+			return table
+		}
+		let table = generateTableArr(4, 4, 1, 50)
+		console.log(table)
+
+		//1)--------------------------------------------------
+		function getTotalIndex(arr, startRow, endRow, startCol, endCol) {
+			let sum = 0
+			for (let row = startRow; row <= endRow; row++) {
+				for (let column = startCol; column <= endCol; column++) {
+					sum += arr[row][column]
+				}
+			}
+			return sum
+		}
+		//1)
+		const firstValueTable = getTotalIndex(table, 0, 0, 0, 3)
+		document.write(`First sum index array = ${firstValueTable}<br>`)
+		//2)
+		const secondValueTable = getTotalIndex(table, 1, 1, 0, 3)
+		document.write(`Second sum index array = ${secondValueTable}<br>`)
+		//3)
+		const thirdValueTable = getTotalIndex(table, 2, 2, 0, 3)
+		document.write(`Third sum index array = ${thirdValueTable}<br>`)
+		//4)
+		const fourtValueTable = getTotalIndex(table, 3, 3, 0, 3)
+		document.write(`Third sum index array = ${fourtValueTable}<br>`)
+
+		//5) Суму парних рядків
+		function getSumPairArr(arr) {
+			let sum = 0
+			for (let row = 0; row < arr.length; row += 2) {
+				for (let column = 0; column < arr[row].length; column++) {
+					sum += arr[row][column]
+				}
+			}
+			return sum
+		}
+		const sumOfThePairsArr = getSumPairArr(table)
+		document.write(`Sum of Paired = ${sumOfThePairsArr}<br>`)
+
+		//6) Суму непарних стовпців
+		function getSumOfOddColum(arr) {
+			let sumOdd = 0
+			for (let row = 0; row < arr.length; row++) {
+				for (let column = 0; column < arr.length; column += 2) {
+					if (arr[column][row] % 2 !== 0) sumOdd += arr[column][row]
+				}
+			}
+			return sumOdd
+		}
+		const sumOdd = getSumOfOddColum(table)
+		document.write(`Sum of odd columns = ${sumOdd}<br>`)
+
+		//7) У парних рядках – непарні стовпці, у непарних – парні.
+		function sumColumnOddColumn(arr) {
+			let sum = 0
+			for (let row = 0; row < arr.length; row++) {
+				for (let column = 0; column < arr[row].length; column++) {
+					if ((row % 2 === 0 && column % 2 !== 0 || row % 2 !== 0 && column % 2 === 0)) sum += arr[column][row]
+				} 
+			}
+			return sum
+		}
+		const sumOddComun = sumColumnOddColumn(table)
+		document.write(`Sum event end odd = ${sumOddComun}<br>`)
+		console.log(sumOddComun);
+	</script>
+</body>
+
+</html>

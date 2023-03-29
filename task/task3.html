@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h3>Задача 3. Морской бой. По случайности на двумерном поле размером 6*6 располагается 5 кораблей. Пользователь стреляет, указывая координаты. Игра продолжается, пока не потоплены все корабли или у пользователя не закончатся снаряды.</h3>
+	<script>
+		function randomInt(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+
+			function createField(rows, columns) {
+				const field = [];
+				for (let i = 0; i < rows; i++) {
+					field.push(new Array(columns).fill(0));
+				}
+				return field;
+			}
+
+			const field = createField(6, 6);
+
+			function placeShips(field, numberOfShips) {
+				for (let i = 0; i < numberOfShips; i++) {
+					let x = randomInt(0, field[0].length - 1);
+					let y = randomInt(0, field.length - 1);
+					while (field[y][x] === 1) {
+						x = randomInt(0, field[0].length - 1);
+						y = randomInt(0, field.length - 1);
+					}
+					field[y][x] = 1;
+				}
+				return field;
+			}
+
+			const numberOfShips = 5;
+			const fieldWithShips = placeShips(field, numberOfShips);
+			console.table(fieldWithShips);
+
+			let numberOfShots = parseInt(prompt('Введите количество выстрелов (минимум 5):'));
+			while (isNaN(numberOfShots) || numberOfShots < 5) {
+				numberOfShots = parseInt(prompt('Неверный ввод. Введите количество выстрелов (минимум 5):'));
+			}
+
+			let numberOfShipsLeft = numberOfShips;
+			while (numberOfShots > 0 && numberOfShipsLeft > 0) {
+				const xShot = parseInt(prompt('Введите координату выстрела по оси X от 0 до 5:'));
+				const yShot = parseInt(prompt('Введите координату выстрела по оси Y от 0 до 5:'));
+				if (fieldWithShips[yShot][xShot] === 1) {
+					numberOfShipsLeft--;
+					alert(`Вы потопили корабль! Осталось ${numberOfShipsLeft} кораблей.`);
+				} else {
+					alert('Промах!');
+				}
+				numberOfShots--;
+			}
+
+			if (numberOfShipsLeft === 0) {
+				alert('Вы выиграли!');
+			} else {
+				alert('Вы проиграли! Попробуйте снова.');
+			}
+	</script>
+</body>
+
+</html>
